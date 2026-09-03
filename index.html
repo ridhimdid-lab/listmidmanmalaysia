@@ -1,1 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midman List</title>
 
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Inter,Arial,sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:#070b14;
+  color:#fff;
+}
+
+header{
+  padding:22px 6%;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  background:rgba(7,11,20,.8);
+  backdrop-filter:blur(15px);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.nav{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:23px;
+  font-weight:800;
+  letter-spacing:-.5px;
+}
+
+.logo span{
+  color:#1683ff;
+}
+
+.admin-btn{
+  text-decoration:none;
+  color:#fff;
+  font-size:13px;
+  padding:10px 16px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;
+  transition:.2s;
+}
+
+.admin-btn:hover{
+  background:#1683ff;
+  border-color:#1683ff;
+}
+
+.hero{
+  max-width:1200px;
+  margin:auto;
+  padding:70px 6% 35px;
+}
+
+.hero h1{
+  font-size:clamp(34px,6vw,60px);
+  line-height:1;
+  letter-spacing:-2px;
+}
+
+.hero h1 span{
+  color:#1683ff;
+}
+
+.hero p{
+  margin-top:14px;
+  color:#8994a8;
+  font-size:15px;
+}
+
+.search{
+  max-width:1200px;
+  margin:0 auto 35px;
+  padding:0 6%;
+}
+
+.search input{
+  width:100%;
+  padding:16px 18px;
+  border-radius:13px;
+  border:1px solid rgba(255,255,255,.08);
+  background:#0d1320;
+  color:white;
+  outline:none;
+  font-size:14px;
+}
+
+.search input:focus{
+  border-color:#1683ff;
+}
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:0 6% 60px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:18px;
+}
+
+.card{
+  background:linear-gradient(145deg,#101827,#0b111d);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:18px;
+  padding:22px;
+  transition:.25s;
+  position:relative;
+  overflow:hidden;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(22,131,255,.5);
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+.avatar{
+  width:75px;
+  height:75px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid #1683ff;
+  background:#121b2a;
+}
+
+.name-row{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-top:16px;
+}
+
+.name{
+  font-size:18px;
+  font-weight:750;
+}
+
+.tick{
+  width:19px;
+  height:19px;
+  border-radius:50%;
+  background:#1683ff;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.role{
+  display:inline-block;
+  margin-top:9px;
+  font-size:11px;
+  letter-spacing:1px;
+  font-weight:700;
+  color:#6caeff;
+  background:rgba(22,131,255,.1);
+  border:1px solid rgba(22,131,255,.2);
+  padding:6px 9px;
+  border-radius:7px;
+}
+
+.wa{
+  display:block;
+  margin-top:20px;
+  text-align:center;
+  padding:12px;
+  border-radius:10px;
+  background:#1683ff;
+  color:white;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:700;
+  transition:.2s;
+}
+
+.wa:hover{
+  background:#086bd7;
+}
+
+.empty{
+  text-align:center;
+  padding:60px 10px;
+  color:#687386;
+}
+
+footer{
+  text-align:center;
+  padding:25px;
+  color:#4f5a6c;
+  font-size:12px;
+}
+
+@media(max-width:600px){
+  header{
+    padding:18px 5%;
+  }
+
+  .hero{
+    padding:50px 5% 30px;
+  }
+
+  .search,
+  .container{
+    padding-left:5%;
+    padding-right:5%;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">MID<span>MAN</span></div>
+    <a href="admin.html" class="admin-btn">Admin</a>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Trusted <span>Midman</span></h1>
+  <p>Find a verified midman for your transaction.</p>
+</section>
+
+<div class="search">
+  <input
+    type="text"
+    id="search"
+    placeholder="Search midman..."
+    oninput="renderProfiles()"
+  >
+</div>
+
+<main class="container">
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>
+  © 2026 Midman List
+</footer>
+
+<script>
+const defaultProfiles = [
+  {
+    id: 1,
+    name: "Luffy",
+    image: "",
+    whatsapp: "60123456789",
+    verified: true
+  },
+  {
+    id: 2,
+    name: "Rexzz",
+    image: "",
+    whatsapp: "60198765432",
+    verified: true
+  }
+];
+
+function getProfiles(){
+  const data = localStorage.getItem("midmanProfiles");
+
+  if(!data){
+    localStorage.setItem(
+      "midmanProfiles",
+      JSON.stringify(defaultProfiles)
+    );
+    return defaultProfiles;
+  }
+
+  try{
+    return JSON.parse(data);
+  }catch{
+    return [];
+  }
+}
+
+function renderProfiles(){
+  const grid = document.getElementById("grid");
+  const search = document
+    .getElementById("search")
+    .value
+    .toLowerCase()
+    .trim();
+
+  const profiles = getProfiles().filter(profile =>
+    profile.name.toLowerCase().includes(search)
+  );
+
+  grid.innerHTML = "";
+
+  if(!profiles.length){
+    grid.innerHTML = `
+      <div class="empty">
+        No midman found.
+      </div>
+    `;
+    return;
+  }
+
+  profiles.forEach(profile => {
+
+    const avatar = profile.image ||
+      "https://ui-avatars.com/api/?name=" +
+      encodeURIComponent(profile.name) +
+      "&background=101827&color=ffffff&size=200";
+
+    const tick = profile.verified
+      ? `<span class="tick">✓</span>`
+      : "";
+
+    const phone = String(profile.whatsapp)
+      .replace(/\D/g,"");
+
+    grid.innerHTML += `
+      <div class="card">
+
+        <img
+          class="avatar"
+          src="${avatar}"
+          alt="${escapeHtml(profile.name)}"
+        >
+
+        <div class="name-row">
+          <div class="name">
+            ${escapeHtml(profile.name)}
+          </div>
+
+          ${tick}
+        </div>
+
+        <div class="role">
+          MIDMAN
+        </div>
+
+        <a
+          class="wa"
+          href="https://wa.me/${phone}"
+          target="_blank"
+        >
+          WhatsApp
+        </a>
+
+      </div>
+    `;
+  });
+}
+
+function escapeHtml(text){
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+renderProfiles();
+</script>
+
+</body>
+</html>
