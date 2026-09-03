@@ -3,383 +3,516 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Midman List</title>
 
 <style>
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Inter,Arial,sans-serif;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,Arial,sans-serif;
 }
 
 body{
-  min-height:100vh;
-  background:#070b14;
-  color:#fff;
+    background:#060a12;
+    color:#fff;
+    min-height:100vh;
 }
 
-header{
-  padding:22px 6%;
-  border-bottom:1px solid rgba(255,255,255,.08);
-  background:rgba(7,11,20,.8);
-  backdrop-filter:blur(15px);
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-.nav{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+/* NAVBAR */
+.navbar{
+    height:72px;
+    border-bottom:1px solid rgba(255,255,255,.07);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(6,10,18,.85);
+    backdrop-filter:blur(18px);
+    position:sticky;
+    top:0;
+    z-index:20;
 }
 
 .logo{
-  font-size:23px;
-  font-weight:800;
-  letter-spacing:-.5px;
+    font-size:23px;
+    font-weight:800;
+    letter-spacing:-1px;
 }
 
 .logo span{
-  color:#1683ff;
+    color:#1683ff;
 }
 
-.admin-btn{
-  text-decoration:none;
-  color:#fff;
-  font-size:13px;
-  padding:10px 16px;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:10px;
-  transition:.2s;
-}
-
-.admin-btn:hover{
-  background:#1683ff;
-  border-color:#1683ff;
-}
-
+/* HERO */
 .hero{
-  max-width:1200px;
-  margin:auto;
-  padding:70px 6% 35px;
+    max-width:1100px;
+    margin:auto;
+    padding:85px 20px 45px;
+    text-align:center;
+}
+
+.badge{
+    display:inline-block;
+    padding:7px 13px;
+    border-radius:999px;
+    background:rgba(22,131,255,.1);
+    border:1px solid rgba(22,131,255,.25);
+    color:#62aaff;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1px;
+    margin-bottom:20px;
 }
 
 .hero h1{
-  font-size:clamp(34px,6vw,60px);
-  line-height:1;
-  letter-spacing:-2px;
+    font-size:clamp(40px,7vw,68px);
+    line-height:1;
+    letter-spacing:-3px;
 }
 
 .hero h1 span{
-  color:#1683ff;
+    color:#1683ff;
 }
 
 .hero p{
-  margin-top:14px;
-  color:#8994a8;
-  font-size:15px;
+    margin:18px auto 0;
+    max-width:520px;
+    color:#7e8a9e;
+    font-size:15px;
+    line-height:1.7;
+}
+
+/* SEARCH */
+.search-box{
+    max-width:600px;
+    margin:0 auto 45px;
+    padding:0 20px;
 }
 
 .search{
-  max-width:1200px;
-  margin:0 auto 35px;
-  padding:0 6%;
+    width:100%;
+    height:52px;
+    background:#0c121e;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:14px;
+    color:#fff;
+    padding:0 18px;
+    outline:none;
+    font-size:14px;
+    transition:.2s;
 }
 
-.search input{
-  width:100%;
-  padding:16px 18px;
-  border-radius:13px;
-  border:1px solid rgba(255,255,255,.08);
-  background:#0d1320;
-  color:white;
-  outline:none;
-  font-size:14px;
+.search:focus{
+    border-color:#1683ff;
+    box-shadow:0 0 0 3px rgba(22,131,255,.08);
 }
 
-.search input:focus{
-  border-color:#1683ff;
-}
-
+/* GRID */
 .container{
-  max-width:1200px;
-  margin:auto;
-  padding:0 6% 60px;
+    max-width:1100px;
+    margin:auto;
+    padding:0 20px 70px;
 }
 
 .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-  gap:18px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(245px,1fr));
+    gap:18px;
 }
 
+/* CARD */
 .card{
-  background:linear-gradient(145deg,#101827,#0b111d);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:18px;
-  padding:22px;
-  transition:.25s;
-  position:relative;
-  overflow:hidden;
+    background:linear-gradient(
+        145deg,
+        rgba(17,26,41,.95),
+        rgba(9,14,24,.98)
+    );
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:20px;
+    padding:25px;
+    position:relative;
+    overflow:hidden;
+    transition:.25s ease;
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    width:120px;
+    height:120px;
+    background:#1683ff;
+    filter:blur(70px);
+    opacity:.08;
+    top:-50px;
+    right:-40px;
 }
 
 .card:hover{
-  transform:translateY(-4px);
-  border-color:rgba(22,131,255,.5);
-  box-shadow:0 15px 40px rgba(0,0,0,.3);
+    transform:translateY(-5px);
+    border-color:rgba(22,131,255,.35);
+    box-shadow:0 18px 45px rgba(0,0,0,.35);
 }
 
 .avatar{
-  width:75px;
-  height:75px;
-  border-radius:50%;
-  object-fit:cover;
-  border:3px solid #1683ff;
-  background:#121b2a;
+    width:78px;
+    height:78px;
+    border-radius:50%;
+    object-fit:cover;
+    display:block;
+    border:3px solid #1683ff;
+    background:#101827;
 }
 
+/* NAME */
 .name-row{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  margin-top:16px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    margin-top:17px;
 }
 
 .name{
-  font-size:18px;
-  font-weight:750;
+    font-size:19px;
+    font-weight:800;
 }
 
 .tick{
-  width:19px;
-  height:19px;
-  border-radius:50%;
-  background:#1683ff;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-  font-weight:bold;
+    width:19px;
+    height:19px;
+    border-radius:50%;
+    background:#1683ff;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:900;
+    box-shadow:0 0 12px rgba(22,131,255,.4);
 }
 
+/* ROLE */
 .role{
-  display:inline-block;
-  margin-top:9px;
-  font-size:11px;
-  letter-spacing:1px;
-  font-weight:700;
-  color:#6caeff;
-  background:rgba(22,131,255,.1);
-  border:1px solid rgba(22,131,255,.2);
-  padding:6px 9px;
-  border-radius:7px;
+    display:inline-block;
+    margin-top:10px;
+    padding:6px 10px;
+    border-radius:7px;
+    background:rgba(22,131,255,.08);
+    border:1px solid rgba(22,131,255,.18);
+    color:#61aaff;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1.2px;
 }
 
-.wa{
-  display:block;
-  margin-top:20px;
-  text-align:center;
-  padding:12px;
-  border-radius:10px;
-  background:#1683ff;
-  color:white;
-  text-decoration:none;
-  font-size:13px;
-  font-weight:700;
-  transition:.2s;
+/* WHATSAPP */
+.whatsapp{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    margin-top:20px;
+    height:44px;
+    border-radius:11px;
+    background:#1683ff;
+    color:#fff;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:800;
+    transition:.2s;
 }
 
-.wa:hover{
-  background:#086bd7;
+.whatsapp:hover{
+    background:#0871df;
+    transform:translateY(-1px);
 }
 
+/* EMPTY */
 .empty{
-  text-align:center;
-  padding:60px 10px;
-  color:#687386;
+    grid-column:1/-1;
+    text-align:center;
+    padding:70px 20px;
+    color:#667286;
 }
 
+/* FOOTER */
 footer{
-  text-align:center;
-  padding:25px;
-  color:#4f5a6c;
-  font-size:12px;
+    border-top:1px solid rgba(255,255,255,.06);
+    padding:25px;
+    text-align:center;
+    color:#505c6e;
+    font-size:12px;
 }
 
+/* MOBILE */
 @media(max-width:600px){
-  header{
-    padding:18px 5%;
-  }
 
-  .hero{
-    padding:50px 5% 30px;
-  }
+    .navbar{
+        height:64px;
+    }
 
-  .search,
-  .container{
-    padding-left:5%;
-    padding-right:5%;
-  }
+    .hero{
+        padding:65px 20px 35px;
+    }
 
-  .grid{
-    grid-template-columns:1fr;
-  }
+    .hero h1{
+        letter-spacing:-2px;
+    }
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .card{
+        padding:22px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="nav">
-    <div class="logo">MID<span>MAN</span></div>
-    <a href="admin.html" class="admin-btn">Admin</a>
-  </div>
-</header>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">
+        MID<span>MAN</span>
+    </div>
+</nav>
 
+
+<!-- HERO -->
 <section class="hero">
-  <h1>Trusted <span>Midman</span></h1>
-  <p>Find a verified midman for your transaction.</p>
+
+    <div class="badge">
+        VERIFIED MIDMAN DIRECTORY
+    </div>
+
+    <h1>
+        Find Your <span>Midman</span>
+    </h1>
+
+    <p>
+        Choose a verified midman for your transaction.
+        Contact them directly through WhatsApp.
+    </p>
+
 </section>
 
-<div class="search">
-  <input
-    type="text"
-    id="search"
-    placeholder="Search midman..."
-    oninput="renderProfiles()"
-  >
+
+<!-- SEARCH -->
+<div class="search-box">
+
+    <input
+        type="text"
+        id="search"
+        class="search"
+        placeholder="Search midman..."
+        autocomplete="off"
+    >
+
 </div>
 
+
+<!-- PROFILES -->
 <main class="container">
-  <div class="grid" id="grid"></div>
+
+    <div
+        class="grid"
+        id="midmanGrid"
+    ></div>
+
 </main>
 
+
 <footer>
-  © 2026 Midman List
+    © 2026 Midman Directory
 </footer>
 
+
 <script>
-const defaultProfiles = [
-  {
-    id: 1,
-    name: "Luffy",
-    image: "",
+
+/*
+==================================================
+MIDMAN DATA
+==================================================
+
+Tambah midman baru dekat bawah.
+
+Format:
+
+{
+    name: "Nama",
+    image: "URL GAMBAR",
     whatsapp: "60123456789",
     verified: true
-  },
-  {
-    id: 2,
-    name: "Rexzz",
-    image: "",
-    whatsapp: "60198765432",
-    verified: true
-  }
+}
+
+verified:
+true  = blue tick
+false = tiada blue tick
+*/
+
+const midmen = [
+
+    {
+        name: "Luffy",
+        image: "https://ui-avatars.com/api/?name=Luffy&background=101827&color=ffffff&size=300",
+        whatsapp: "60123456789",
+        verified: true
+    },
+
+    {
+        name: "Rexzz",
+        image: "https://ui-avatars.com/api/?name=Rexzz&background=101827&color=ffffff&size=300",
+        whatsapp: "60198765432",
+        verified: true
+    }
+
 ];
 
-function getProfiles(){
-  const data = localStorage.getItem("midmanProfiles");
 
-  if(!data){
-    localStorage.setItem(
-      "midmanProfiles",
-      JSON.stringify(defaultProfiles)
-    );
-    return defaultProfiles;
-  }
+/*
+==================================================
+DISPLAY PROFILES
+==================================================
+*/
 
-  try{
-    return JSON.parse(data);
-  }catch{
-    return [];
-  }
+function displayMidmen(list){
+
+    const grid =
+        document.getElementById("midmanGrid");
+
+    grid.innerHTML = "";
+
+    if(list.length === 0){
+
+        grid.innerHTML = `
+            <div class="empty">
+                No midman found.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    list.forEach(midman => {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "card";
+
+
+        const tick =
+            midman.verified
+            ? `<span class="tick">✓</span>`
+            : "";
+
+
+        const whatsapp =
+            String(midman.whatsapp)
+            .replace(/\D/g,"");
+
+
+        card.innerHTML = `
+
+            <img
+                class="avatar"
+                src="${escapeHTML(midman.image)}"
+                alt="${escapeHTML(midman.name)}"
+            >
+
+            <div class="name-row">
+
+                <div class="name">
+                    ${escapeHTML(midman.name)}
+                </div>
+
+                ${tick}
+
+            </div>
+
+
+            <div class="role">
+                MIDMAN
+            </div>
+
+
+            <a
+                class="whatsapp"
+                href="https://wa.me/${whatsapp}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                WhatsApp
+            </a>
+
+        `;
+
+
+        grid.appendChild(card);
+
+    });
+
 }
 
-function renderProfiles(){
-  const grid = document.getElementById("grid");
-  const search = document
+
+/*
+==================================================
+SEARCH
+==================================================
+*/
+
+document
     .getElementById("search")
-    .value
-    .toLowerCase()
-    .trim();
+    .addEventListener("input", function(){
 
-  const profiles = getProfiles().filter(profile =>
-    profile.name.toLowerCase().includes(search)
-  );
+        const keyword =
+            this.value
+            .toLowerCase()
+            .trim();
 
-  grid.innerHTML = "";
 
-  if(!profiles.length){
-    grid.innerHTML = `
-      <div class="empty">
-        No midman found.
-      </div>
-    `;
-    return;
-  }
+        const filtered =
+            midmen.filter(midman =>
+                midman.name
+                .toLowerCase()
+                .includes(keyword)
+            );
 
-  profiles.forEach(profile => {
 
-    const avatar = profile.image ||
-      "https://ui-avatars.com/api/?name=" +
-      encodeURIComponent(profile.name) +
-      "&background=101827&color=ffffff&size=200";
+        displayMidmen(filtered);
 
-    const tick = profile.verified
-      ? `<span class="tick">✓</span>`
-      : "";
+    });
 
-    const phone = String(profile.whatsapp)
-      .replace(/\D/g,"");
 
-    grid.innerHTML += `
-      <div class="card">
+/*
+==================================================
+SECURITY / HTML ESCAPE
+==================================================
+*/
 
-        <img
-          class="avatar"
-          src="${avatar}"
-          alt="${escapeHtml(profile.name)}"
-        >
+function escapeHTML(value){
 
-        <div class="name-row">
-          <div class="name">
-            ${escapeHtml(profile.name)}
-          </div>
+    return String(value)
 
-          ${tick}
-        </div>
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
 
-        <div class="role">
-          MIDMAN
-        </div>
-
-        <a
-          class="wa"
-          href="https://wa.me/${phone}"
-          target="_blank"
-        >
-          WhatsApp
-        </a>
-
-      </div>
-    `;
-  });
 }
 
-function escapeHtml(text){
-  return String(text)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
 
-renderProfiles();
+/*
+==================================================
+START
+==================================================
+*/
+
+displayMidmen(midmen);
+
 </script>
 
 </body>
