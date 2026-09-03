@@ -1,1 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midman Admin</title>
 
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Inter,Arial,sans-serif;
+}
+
+body{
+  background:#070b14;
+  color:#fff;
+  min-height:100vh;
+}
+
+header{
+  padding:20px 6%;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:800;
+}
+
+.logo span{
+  color:#1683ff;
+}
+
+.back{
+  color:#aaa;
+  text-decoration:none;
+  font-size:13px;
+}
+
+main{
+  max-width:1100px;
+  margin:auto;
+  padding:40px 6%;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+  gap:15px;
+}
+
+h1{
+  font-size:30px;
+}
+
+.add-btn{
+  border:0;
+  background:#1683ff;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.form-box{
+  display:none;
+  background:#0d1421;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:22px;
+  margin-bottom:25px;
+}
+
+.form-box.active{
+  display:block;
+}
+
+.form-box h2{
+  margin-bottom:18px;
+  font-size:19px;
+}
+
+input{
+  width:100%;
+  padding:13px;
+  margin-bottom:12px;
+  background:#080d16;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:9px;
+  color:#fff;
+  outline:none;
+}
+
+input:focus{
+  border-color:#1683ff;
+}
+
+.checkbox{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:5px 0 16px;
+  color:#aaa;
+  font-size:13px;
+}
+
+.checkbox input{
+  width:auto;
+  margin:0;
+}
+
+.save{
+  background:#1683ff;
+  border:0;
+  color:#fff;
+  padding:11px 17px;
+  border-radius:9px;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.cancel{
+  background:#202938;
+  border:0;
+  color:#fff;
+  padding:11px 17px;
+  border-radius:9px;
+  cursor:pointer;
+  margin-left:6px;
+}
+
+.admin-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:16px;
+}
+
+.item{
+  background:#0d1421;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:15px;
+  padding:18px;
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+
+.item img{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid #1683ff;
+}
+
+.info{
+  flex:1;
+}
+
+.info strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.info small{
+  color:#69758a;
+}
+
+.actions{
+  display:flex;
+  gap:6px;
+}
+
+.edit,
+.delete{
+  border:0;
+  padding:8px 10px;
+  border-radius:7px;
+  cursor:pointer;
+  color:#fff;
+}
+
+.edit{
+  background:#1b6fd1;
+}
+
+.delete{
+  background:#c0392b;
+}
+
+@media(max-width:600px){
+  .top{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .item{
+    align-items:flex-start;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">MID<span>MAN</span> ADMIN</div>
+    <a href="index.html" class="back">← View Website</a>
+  </div>
+</header>
+
+<main>
+
+  <div class="top">
+    <h1>Manage Midman</h1>
+
+    <button class="add-btn" onclick="openAdd()">
+      + Add Midman
+    </button>
+  </div>
+
+  <div class="form-box" id="formBox">
+
+    <h2 id="formTitle">Add Midman</h2>
+
+    <input
+      id="name"
+      type="text"
+      placeholder="Midman name"
+    >
+
+    <input
+      id="whatsapp"
+      type="text"
+      placeholder="WhatsApp number e.g. 60123456789"
+    >
+
+    <input
+      id="image"
+      type="text"
+      placeholder="Profile image URL"
+    >
+
+    <label class="checkbox">
+      <input type="checkbox" id="verified">
+      Blue tick / Verified
+    </label>
+
+    <button class="save" onclick="saveProfile()">
+      Save
+    </button>
+
+    <button class="cancel" onclick="closeForm()">
+      Cancel
+    </button>
+
+  </div>
+
+  <div class="admin-grid" id="adminGrid"></div>
+
+</main>
+
+<script>
+let editId = null;
+
+function getProfiles(){
+  const data = localStorage.getItem("midmanProfiles");
+
+  if(!data){
+    const defaults = [
+      {
+        id:1,
+        name:"Luffy",
+        image:"",
+        whatsapp:"60123456789",
+        verified:true
+      },
+      {
+        id:2,
+        name:"Rexzz",
+        image:"",
+        whatsapp:"60198765432",
+        verified:true
+      }
+    ];
+
+    localStorage.setItem(
+      "midmanProfiles",
+      JSON.stringify(defaults)
+    );
+
+    return defaults;
+  }
+
+  try{
+    return JSON.parse(data);
+  }catch{
+    return [];
+  }
+}
+
+function saveProfiles(profiles){
+  localStorage.setItem(
+    "midmanProfiles",
+    JSON.stringify(profiles)
+  );
+}
+
+function openAdd(){
+
+  editId = null;
+
+  document.getElementById("formTitle").textContent =
+    "Add Midman";
+
+  document.getElementById("name").value = "";
+  document.getElementById("whatsapp").value = "";
+  document.getElementById("image").value = "";
+  document.getElementById("verified").checked = false;
+
+  document.getElementById("formBox")
+    .classList.add("active");
+}
+
+function editProfile(id){
+
+  const profile = getProfiles()
+    .find(p => p.id === id);
+
+  if(!profile) return;
+
+  editId = id;
+
+  document.getElementById("formTitle").textContent =
+    "Edit Midman";
+
+  document.getElementById("name").value =
+    profile.name;
+
+  document.getElementById("whatsapp").value =
+    profile.whatsapp;
+
+  document.getElementById("image").value =
+    profile.image || "";
+
+  document.getElementById("verified").checked =
+    profile.verified === true;
+
+  document.getElementById("formBox")
+    .classList.add("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+function saveProfile(){
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  const whatsapp =
+    document.getElementById("whatsapp").value.trim();
+
+  const image =
+    document.getElementById("image").value.trim();
+
+  const verified =
+    document.getElementById("verified").checked;
+
+  if(!name || !whatsapp){
+    alert("Please fill in name and WhatsApp number.");
+    return;
+  }
+
+  let profiles = getProfiles();
+
+  if(editId !== null){
+
+    profiles = profiles.map(profile => {
+
+      if(profile.id === editId){
+        return {
+          ...profile,
+          name,
+          whatsapp,
+          image,
+          verified
+        };
+      }
+
+      return profile;
+    });
+
+  }else{
+
+    profiles.push({
+      id:Date.now(),
+      name,
+      whatsapp,
+      image,
+      verified
+    });
+
+  }
+
+  saveProfiles(profiles);
+
+  closeForm();
+  renderAdmin();
+}
+
+function deleteProfile(id){
+
+  const profile = getProfiles()
+    .find(p => p.id === id);
+
+  if(!profile) return;
+
+  if(!confirm(
+    `Delete ${profile.name}?`
+  )) return;
+
+  const profiles =
+    getProfiles().filter(p => p.id !== id);
+
+  saveProfiles(profiles);
+
+  renderAdmin();
+}
+
+function closeForm(){
+
+  editId = null;
+
+  document.getElementById("formBox")
+    .classList.remove("active");
+}
+
+function renderAdmin(){
+
+  const grid =
+    document.getElementById("adminGrid");
+
+  const profiles = getProfiles();
+
+  grid.innerHTML = "";
+
+  if(!profiles.length){
+    grid.innerHTML =
+      `<p style="color:#69758a">
+        No midman added yet.
+      </p>`;
+    return;
+  }
+
+  profiles.forEach(profile => {
+
+    const avatar =
+      profile.image ||
+      "https://ui-avatars.com/api/?name=" +
+      encodeURIComponent(profile.name) +
+      "&background=101827&color=ffffff&size=200";
+
+    grid.innerHTML += `
+      <div class="item">
+
+        <img
+          src="${avatar}"
+          alt=""
+        >
+
+        <div class="info">
+          <strong>
+            ${escapeHtml(profile.name)}
+            ${profile.verified ? " 🔵" : ""}
+          </strong>
+
+          <small>
+            ${escapeHtml(profile.whatsapp)}
+          </small>
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="edit"
+            onclick="editProfile(${profile.id})"
+          >
+            Edit
+          </button>
+
+          <button
+            class="delete"
+            onclick="deleteProfile(${profile.id})"
+          >
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+    `;
+  });
+}
+
+function escapeHtml(text){
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+renderAdmin();
+</script>
+
+</body>
+</html>
